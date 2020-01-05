@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Products;
 
+use App\Models\Product;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -13,17 +14,13 @@ class ViewProductsTest extends TestCase
     /** @test */
     public function it_can_display_the_product_list()
     {
-        $product = Product::create([
-            'name' => 'Test Product',
-            'description' => 'Test product description',
-            'price' => 2999
-        ]);
+        $product = factory(Product::class)->create();
 
-        $response = $this->get(route('products.index'));
+        $response = $this->get('/products');
 
         $response
-            ->assertSee('Test Product')
-            ->assertSee('29.99');
+            ->assertSee($product->name)
+            ->assertSee($product->getPrice());
     }
 
 }
