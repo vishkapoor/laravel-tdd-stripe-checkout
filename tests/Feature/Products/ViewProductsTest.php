@@ -14,7 +14,7 @@ class ViewProductsTest extends TestCase
     /** @test */
     public function it_can_display_the_product_list()
     {
-        $product = factory(Product::class)->create();
+        $product = $this->create(Product::class);
 
         $response = $this->get('/products');
 

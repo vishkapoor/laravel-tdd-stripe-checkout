@@ -16,6 +16,44 @@ Route::get('/products', [
 	'as' => 'products.index'
 ]);
 
+Route::put('/cart/{product}', [
+	'uses' => 'CartController@update',
+	'as' => 'cart.update'
+]);
+
+Route::get('/cart', [
+	'uses' => 'CartController@index',
+	'as' => 'cart.index'
+]);
+
+// Route::put('/carts/{cart}', [
+// 	'uses' => 'CartsController@update',
+// 	'as' => 'carts.update'
+// ]);
+
+// Route::get('/cart/{cart}', [
+// 	'uses' => 'CartsController@show',
+// 	'as' => 'carts.show'
+// ]);
+
+
+// Route::get('/carts/{cart}/products', [
+// 	'uses' => 'Carts\ProductsController@index',
+// 	'as' => 'carts.products.index'
+// ]);
+
+
+
+Route::post('/carts/{cart}/products', [
+	'uses' => 'Carts\ProductsController@store',
+	'as' => 'carts.products.store'
+]);
+
+
 Route::get('/', function () {
     return view('welcome');
 });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

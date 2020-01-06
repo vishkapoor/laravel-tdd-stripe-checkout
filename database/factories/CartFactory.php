@@ -2,15 +2,14 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Models\Product;
+use App\Model;
+use App\Models\Cart;
 use App\User;
 use Faker\Generator as Faker;
 
-$factory->define(Product::class, function (Faker $faker) {
+$factory->define(Cart::class, function (Faker $faker) {
     return [
-        'name' => $faker->name,
-        'description' => $faker->sentence,
-        'price' => $faker->numberBetween(1000, 10000),
+        'hash' => $faker->uuid,
         'user_id' => function() {
         	return create(User::class);
         }

@@ -12,6 +12,6 @@ class Product extends Model
 
     public function getPrice() 
     {
-    	return $this->price / 100;
+    	return number_format($this->price / 100, 2);
     }
 }
