@@ -26,6 +26,11 @@ Route::get('/cart', [
 	'as' => 'cart.index'
 ]);
 
+Route::post('/orders', [
+    'uses' => 'OrdersController@store',
+    'as' => 'orders.store'
+]);
+
 // Route::put('/carts/{cart}', [
 // 	'uses' => 'CartsController@update',
 // 	'as' => 'carts.update'

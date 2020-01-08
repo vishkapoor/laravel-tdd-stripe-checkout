@@ -15,7 +15,7 @@ class CartTest extends TestCase
     public function it_can_add_items_to_the_cart()
     {
         $cart = new Cart;
-        
+
         $product = $this->create(Product::class);
 
         $cart->add($product, $product->id);
@@ -40,6 +40,26 @@ class CartTest extends TestCase
         }) /100, 2);
 
         $this->assertEquals($totalPrice, $cart->totalPrice());
+
+    }
+
+
+    /** @test */
+    public function it_has_a_total_in_numbers()
+    {
+        $cart = new Cart;
+
+        $products = $this->create(Product::class, [], 3);
+
+        foreach($products as $product) {
+            $cart->add($product, $product->id);
+        }
+
+        $totalPrice = $products->reduce(function($total, $product) {
+            return $total + $product->price;
+        });
+
+        $this->assertEquals($totalPrice, $cart->total());
 
     }
 

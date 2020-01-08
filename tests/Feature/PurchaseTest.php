@@ -2,7 +2,10 @@
 
 namespace Tests\Feature;
 
+use App\Contracts\PaymentGatewayContract;
 use App\Models\Cart;
+use App\Models\FakePayment;
+use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -13,23 +16,55 @@ class PurchaseTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function it_can_purchase_test()
+    public function it_can_purchase_products()
     {
-        $product = $this->create(Product::class);
-
         $cart = new Cart;
+
+        $product = $this->create(Product::class);
 
         $cart->add($product, $product->id);
 
         $payment = new FakePayment;
+
+        $this->app->instance(PaymentGatewayContract::class, $payment);
 
         $this->post('/orders', [
             'stripeEmail' => 'test@email.com',
             'stripeToken' => $payment->getTestToken(),
         ]);
 
-        $this->assertEquals($product->price, $payment->totalCharge()); 
+        $this->assertEquals($product->getPrice(), $payment->totalCharged());
 
     }
+
+    /**
+     * @test
+     */
+    public function it_creates_orders_after_purchase()
+    {
+        $cart = new Cart;
+
+        $product = $this->create(Product::class);
+
+        $cart->add($product, $product->id);
+
+        $payment = new FakePayment;
+
+        $this->app->instance(PaymentGatewayContract::class, $payment);
+
+        $this->post('/orders', [
+            'stripeEmail' => 'test@email.com',
+            'stripeToken' => $payment->getTestToken(),
+        ]);
+
+        $order = Order::where('email', 'test@email.com')->first();
+
+        $this->assertNotNull($order);
+
+        $this->assertEquals(1, $order->products->count());
+
+    }
+
+
 
 }

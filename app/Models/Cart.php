@@ -3,7 +3,7 @@
 namespace App\Models;
 
 
-class Cart 
+class Cart
 {
     public $items;
 
@@ -23,12 +23,15 @@ class Cart
 
     }
 
-    public function totalPrice() 
+    public function totalPrice()
     {
-        $totalPrice = $this->items->reduce(function($total, $item) {
+        return number_format($this->total() / 100 , 2);
+    }
+
+    public function total()
+    {
+        return $this->items->reduce(function($total, $item) {
             return $total + $item->price;
         });
-
-        return number_format($totalPrice / 100 , 2);
     }
 }
