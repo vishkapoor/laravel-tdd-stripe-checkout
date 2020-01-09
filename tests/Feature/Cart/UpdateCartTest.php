@@ -13,9 +13,11 @@ class UpdateCartTest extends TestCase
 
     use RefreshDatabase;
 
+
     /** @test */
     public function it_can_update_cart_content()
     {
+
         $product = $this->create(Product::class);
 
         $response = $this->put('/cart/' . $product->id);
