@@ -21,7 +21,7 @@ class StripePaymentTest extends TestCase
     {
         parent::setUp();
         $this->config = [
-            'api_key' => config('stripe.test_secret')
+            'api_key' => config('stripe.secret')
         ];
         $this->lastCharge = $this->lastCharge();
     }
@@ -51,7 +51,7 @@ class StripePaymentTest extends TestCase
         $this->assertEquals('1000', $this->lastCharge()->amount);
    }
 
-    private function lastCharge() 
+    private function lastCharge()
     {
         return Charge::all(['limit' => 1], $this->config)->data[0];
     }

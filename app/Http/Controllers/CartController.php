@@ -15,7 +15,8 @@ class CartController extends Controller
      */
     public function index()
     {
-        $cart = new Cart;
+        $cart = new Cart();
+
         return view('cart.index', compact('cart'));
     }
 
@@ -71,8 +72,8 @@ class CartController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        $cart = new Cart;
-        
+        $cart = new Cart();
+
         $cart->add($product, $product->id);
 
         return redirect('/cart');

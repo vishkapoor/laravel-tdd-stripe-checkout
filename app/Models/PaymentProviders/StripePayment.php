@@ -12,7 +12,7 @@ class StripePayment implements PaymentGatewayContract
 	public function __construct()
 	{
 		$this->stripeConfig = [
-			'api_key' => config('stripe.test_secret')
+			'api_key' => config('stripe.secret')
 		];
 	}
 

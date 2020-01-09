@@ -14,45 +14,28 @@
 Route::get('/products', [
 	'uses' => 'ProductsController@index',
 	'as' => 'products.index'
-]);
+])->middleware(['auth']);
 
 Route::put('/cart/{product}', [
 	'uses' => 'CartController@update',
 	'as' => 'cart.update'
-]);
+])->middleware(['auth']);
 
 Route::get('/cart', [
 	'uses' => 'CartController@index',
 	'as' => 'cart.index'
-]);
+])->middleware(['auth']);
 
 Route::post('/orders', [
     'uses' => 'OrdersController@store',
     'as' => 'orders.store'
-]);
-
-// Route::put('/carts/{cart}', [
-// 	'uses' => 'CartsController@update',
-// 	'as' => 'carts.update'
-// ]);
-
-// Route::get('/cart/{cart}', [
-// 	'uses' => 'CartsController@show',
-// 	'as' => 'carts.show'
-// ]);
-
-
-// Route::get('/carts/{cart}/products', [
-// 	'uses' => 'Carts\ProductsController@index',
-// 	'as' => 'carts.products.index'
-// ]);
-
+])->middleware(['auth']);
 
 
 Route::post('/carts/{cart}/products', [
 	'uses' => 'Carts\ProductsController@store',
 	'as' => 'carts.products.store'
-]);
+])->middleware(['auth']);
 
 
 Route::get('/', function () {

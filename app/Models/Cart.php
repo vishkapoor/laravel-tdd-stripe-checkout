@@ -9,17 +9,15 @@ class Cart
 
     public function __construct()
     {
-        $this->items = collect();
-        if(session()->has('cart')) {
-            $this->items = session('cart')->items;
-        }
-
+        $this->items = session()->has('cart')
+            ? session('cart')->items : collect();
     }
 
     public function add($product, $key)
     {
         $this->items->put($key, $product);
-        session()->put('cart', $this);
+
+        session(['cart' => $this]);
 
     }
 
