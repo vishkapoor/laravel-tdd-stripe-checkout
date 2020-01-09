@@ -51,6 +51,29 @@ class StripePaymentTest extends TestCase
         $this->assertEquals('1000', $this->lastCharge()->amount);
    }
 
+      /** @test */
+    public function it_has_a_real_total_charged_in_numbers()
+    {
+        $payment = new StripePayment;
+
+        $token = Token::create([
+          'card' => [
+                'number' => '4242424242424242',
+                'exp_month' => 1,
+                'exp_year' => date('Y') + 1,
+                'cvc' => '123',
+            ],
+        ], $this->config);
+
+
+        $payment->charge(1000, $token->id);
+
+        $charges = Charge::all(['limit' => 1], $this->config);
+
+        $this->assertEquals('1000', $payment->total());
+   }
+
+
     private function lastCharge()
     {
         return Charge::all(['limit' => 1], $this->config)->data[0];

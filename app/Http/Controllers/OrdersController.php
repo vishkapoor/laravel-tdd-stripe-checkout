@@ -55,17 +55,22 @@ class OrdersController extends Controller
         ]);
 
         $order->addProducts($cart->items);
+
+        return redirect('/orders/' . $order->id);
+
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param Order $order
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Order $order)
     {
-        //
+        $order->load('products');
+
+        return view('orders.show', compact('order'));
     }
 
     /**

@@ -25,4 +25,17 @@ class OrderTest extends TestCase
         $this->assertEquals(3, $order->products->count());
 
     }
+
+    /**
+     * @test
+     */
+    public function it_has_total_price_for_the_order()
+    {
+        $order = $this->create(Order::class, [
+            'total' => 3000
+        ]);
+
+        $this->assertEquals('30.00', $order->totalPrice());
+    }
+
 }

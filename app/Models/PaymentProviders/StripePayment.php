@@ -8,6 +8,7 @@ use Stripe\Charge;
 class StripePayment implements PaymentGatewayContract
 {
 	protected $stripeConfig;
+    private $total;
 
 	public function __construct()
 	{
@@ -18,12 +19,19 @@ class StripePayment implements PaymentGatewayContract
 
     public function charge($total, $token)
     {
-        Charge::create([
+        $charge = Charge::create([
 		  'amount' => $total,
 		  'currency' => 'gbp',
 		  'source' => $token,
 		], $this->stripeConfig);
 
+        $this->total = $charge->amount;
+
+    }
+
+    public function total()
+    {
+        return $this->total;
     }
 
 }

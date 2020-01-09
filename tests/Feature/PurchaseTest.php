@@ -28,10 +28,20 @@ class PurchaseTest extends TestCase
 
         $this->app->instance(PaymentGatewayContract::class, $payment);
 
-        $this->post('/orders', [
+        $response = $this->post('/orders', [
             'stripeEmail' => 'test@email.com',
             'stripeToken' => $payment->getTestToken(),
         ]);
+
+        $order = Order::where('email', 'test@email.com')->first();
+
+        $this->assertNotNull($order);
+
+        $response->assertRedirect('/orders/'. $order->id);
+
+        $this->get('/orders/' . $order->id)
+            ->assertSee($order->email)
+            ->assertSee($product->name);
 
         $this->assertEquals($product->getPrice(), $payment->totalCharged());
 

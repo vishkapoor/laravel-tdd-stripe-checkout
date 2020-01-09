@@ -32,6 +32,12 @@ Route::post('/orders', [
 ])->middleware(['auth']);
 
 
+Route::get('/orders/{order}', [
+    'uses' => 'OrdersController@show',
+    'as' => 'orders.show'
+])->middleware(['auth']);
+
+
 Route::post('/carts/{cart}/products', [
 	'uses' => 'Carts\ProductsController@store',
 	'as' => 'carts.products.store'
