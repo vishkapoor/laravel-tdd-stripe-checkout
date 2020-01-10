@@ -11,6 +11,43 @@
 |
 */
 
+Route::get('/products', [
+	'uses' => 'ProductsController@index',
+	'as' => 'products.index'
+])->middleware(['auth']);
+
+Route::put('/cart/{product}', [
+	'uses' => 'CartController@update',
+	'as' => 'cart.update'
+])->middleware(['auth']);
+
+Route::get('/cart', [
+	'uses' => 'CartController@index',
+	'as' => 'cart.index'
+])->middleware(['auth']);
+
+Route::post('/orders', [
+    'uses' => 'OrdersController@store',
+    'as' => 'orders.store'
+])->middleware(['auth']);
+
+
+Route::get('/orders/{order}', [
+    'uses' => 'OrdersController@show',
+    'as' => 'orders.show'
+])->middleware(['auth']);
+
+
+Route::post('/carts/{cart}/products', [
+	'uses' => 'Carts\ProductsController@store',
+	'as' => 'carts.products.store'
+])->middleware(['auth']);
+
+
 Route::get('/', function () {
     return view('welcome');
 });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
