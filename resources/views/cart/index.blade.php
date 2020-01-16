@@ -19,7 +19,7 @@
 					</div>
 				</div>
 				<div class="card-body">
-					@if(!isset($cart->items))
+					@if($cart->items->isEmpty())
 						<h5>Your cart is empty.</h5>
 					@else
 						@foreach($cart->items as $item)
@@ -39,6 +39,7 @@
 						@endforeach
 					@endif
 				</div>
+				@if(!$cart->items->isEmpty())
 				<div class="card-footer text-muted">
 					<div class="row text-center">
 						<div class="col-md-9">
@@ -65,6 +66,7 @@
 						</div>
 					</div>
 				</div>
+				@endif
 			</div>
 		</div>
 	</div>
